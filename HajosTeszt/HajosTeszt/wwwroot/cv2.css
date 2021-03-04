@@ -1,0 +1,110 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-weight: bold;
+    text-align: center;
+}
+
+#article1, #article2, #footer, #header, #felsorolasok, #kep {
+    padding: 20px;
+}
+
+img {
+    display: block;
+    max-width: 333px;
+    max-height: 444px;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: groove;
+}
+
+span{
+    font-variant: small-caps;
+    color:midnightblue;
+    font-size: 20px;
+  }
+
+#header {
+    color:whitesmoke;
+    margin: 10px;
+    padding: 10px;
+    background-color: grey;
+    border: 5px solid wheat;
+    border-radius: 10px;
+}
+
+#felsorolasok {
+    background-color: deepskyblue;
+}
+
+#article1 {
+    background-color: gold;
+    text-align: left;
+}
+
+#article2 {
+    background-color: lightgreen;
+    text-align: left;
+}
+
+#footer {
+    color:maroon;
+    margin: 10px;
+    padding: 10px;
+    background-color: grey;
+    border: 5px solid wheat;
+    border-radius: 10px;
+}
+
+#bye, #kep{
+    flex: 1 1 50%;
+}
+
+#felsorolasok {
+    display: flex;
+}
+
+#tapasztalataim{
+    font-style: italic;
+    text-align: center;
+    color: black;
+    Flex: 1 1 50%;
+}
+
+#tevekenysegek {
+    padding: 5px;
+    border: 1px solid darkblue;
+    /* border-radius: 10px; */
+    text-align: left;
+    color: black;
+    Flex: 1 1 50%;
+}
+
+@media only screen and (min-width: 800px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        max-width: 1500px;
+    }
+    #main, #footer {
+        display: flex;
+    }
+    #header {
+        order: -1;
+    }
+    #article1 {
+        flex: 1 1 50%;
+    }
+    #article2 {
+        flex: 1 1 50%;
+    }
+    #bye{
+        flex: 1 1 50%;
+    }
+    #kep{
+        flex: 1 1 50%;
+    }
+}
