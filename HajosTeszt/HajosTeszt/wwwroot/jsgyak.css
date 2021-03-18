@@ -1,0 +1,32 @@
+﻿body {
+}
+
+.sor {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: auto;
+    top: 50%;
+}
+
+.elem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    padding: 7px;
+
+}
+
+.kicsi {
+    background-color: lightcyan;
+}
+
+.kozepes{
+    background-color: mediumturquoise;
+}
+
+.nagy{
+    background-color: darkcyan;
+}
