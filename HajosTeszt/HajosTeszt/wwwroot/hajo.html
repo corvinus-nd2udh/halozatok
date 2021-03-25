@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <link href="hajo.css" rel="stylesheet" />
+    <script src="hetedik.js"></script>
     <title></title>
 </head>
 <body>
@@ -17,9 +18,9 @@
 
         <div id="kozepso">
             <div id="valaszok">
-                <div id="valasz1" class="kerdes kattinthato">Válasz1</div>
-                <div id="valasz2" class="kerdes kattinthato jo">Válasz2</div>
-                <div id="valasz3" class="kerdes kattinthato rossz">Válasz3</div>
+                <div id="valasz1" class="kerdes kattinthato" onclick="megoldas(1)">Válasz1</div>
+                <div id="valasz2" class="kerdes kattinthato" onclick="megoldas(2)">Válasz2</div>
+                <div id="valasz3" class="kerdes kattinthato" onclick="megoldas(3)">Válasz3</div>
             </div>
             <div id="kep">
                 <img id="kep1" src="https://szoft1.comeback.hu/hajo/teszt-0050.jpg" alt="Illusztráció" />
@@ -27,8 +28,8 @@
         </div>
 
         <div id="vezerlo">
-            <div class="gomb kattinthato">Vissza</div>
-            <div class="gomb kattinthato">Előre</div>
+            <div id="vissza" class="gomb kattinthato" onclick="vissza()">Vissza</div>
+            <div id="elore" class="gomb kattinthato" onclick="elore()">Előre</div>
         </div>
     </div>
 </body>
