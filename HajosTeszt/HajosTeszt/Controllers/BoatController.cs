@@ -36,7 +36,7 @@ namespace HajosTeszt.Controllers
         }
 
         [HttpGet]
-        [Route("questions/mind")]
+        [Route("questions/count")]
         public ActionResult M3()
         {
             hajostesztContext context = new hajostesztContext();
