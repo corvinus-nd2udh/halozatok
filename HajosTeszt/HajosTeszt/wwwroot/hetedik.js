@@ -1,9 +1,4 @@
-﻿var kerdesek;
-//var sorszam = 0;
-var leptetes = 1;
-var osszesKerdesSzama;
-var aktualisKerdes;
-var hotList = [];
+﻿var hotList = [];
 var questionsInHotList = 3; //Később felkonfiguráljuk 7-re.
 var displayedQuestion; //A hotListből melyik kérdést mutajuk épp
 var numberOfQuestions; //Kérdések száma a teljes adatbázisban -> erre van már nekem egy változóm
@@ -12,78 +7,17 @@ var timeoutHandler;
 var tarolo = window.localStorage;
 
 window.onload = function () {
-    letoltes();
-    //kerdesBetoltes(leptetes);
+    countQuestions();
     init();
 };
 
-function letoltes() {
-  fetch('/questions.json')
-      .then(response => response.json())
-      .then(data => letoltesBefejezodott(data))
-};
-
-function letoltesBefejezodott(d) {
-    console.log("Sikeres letöltés")
-    console.log(d)
-    kerdesek = d
-    //kerdesMegjelenites(0)
-};
-
-//fetch('/questions/1')
-//    .then(respons => respons.json())
-//    .then(data => kerdesMegjelenites(data))
-
-fetch('/questions/count')
-    .then(response => response.json())
-    .then(output => {
-        var data = output
-        osszesKerdesSzama = data
-    }
-)
-
-function kerdesMegjelenites() {
-    let kerdes = hotList[displayedQuestion].question;
-    console.log(kerdes);
-    //aktualisKerdes = kerdes
-    document.getElementById("kerdes_szoveg").innerHTML = kerdes.questionText
-    document.getElementById("valasz1").innerHTML = kerdes.answer1
-    document.getElementById("valasz2").innerHTML = kerdes.answer2
-    document.getElementById("valasz3").innerHTML = kerdes.answer3
-    document.getElementById("kep1").src = "https://szoft1.comeback.hu/hajo/" + kerdes.image
-};
-
-
-//function kerdesMegjelenites(kerdes) {
-//    console.log(kerdes);
-//    aktualisKerdes = kerdes
-//    document.getElementById("kerdes_szoveg").innerHTML = kerdes.questionText
-//    document.getElementById("valasz1").innerHTML = kerdes.answer1
-//    document.getElementById("valasz2").innerHTML = kerdes.answer2
-//    document.getElementById("valasz3").innerHTML = kerdes.answer3
-//    document.getElementById("kep1").src = "https://szoft1.comeback.hu/hajo/" + kerdes.image
-//};
-
-function kerdesBetoltes(questionNumber, destination) {
-    fetch(`/questions/${questionNumber}`)
-        .then(result => {
-            if (!result.ok) {
-                console.error(`Hibás letöltés: ${response.status}`)
-            }
-            else {
-                return result.json()
-            }
-        })
-        .then(
-            q => {
-                hotList[destination].question = q;
-                hotList[destination].goodAnswers = 0;
-                console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`);
-                if (displayedQuestion == undefined && destination==0) {
-                    displayedQuestion = 0;
-                    kerdesMegjelenites()
-                }
-            }
+function countQuestions() {
+    fetch('/questions/count')
+        .then(response => response.json())
+        .then(output => {
+            var data = output
+            numberOfQuestions = data
+        }
         )
 }
 
@@ -113,19 +47,43 @@ function init() {
     }
 }
 
+function kerdesBetoltes(questionNumber, destination) {
+    fetch(`/questions/${questionNumber}`)
+        .then(result => {
+            if (!result.ok) {
+                console.error(`Hibás letöltés: ${response.status}`)
+            }
+            else {
+                return result.json()
+            }
+        })
+        .then(
+            q => {
+                hotList[destination].question = q;
+                hotList[destination].goodAnswers = 0;
+                console.log(`A ${questionNumber}. kérdés letöltve a hot list ${destination}. helyére`);
+                if (displayedQuestion == undefined && destination == 0) {
+                    displayedQuestion = 0;
+                    kerdesMegjelenites()
+                }
+            }
+        )
+}
 
-//function kerdesBetoltes(id) {
-//    fetch(`/questions/${id}`)
-//        .then(response => {
-//            if (!response.ok) {
-//                console.error(`Hibás válasz: ${response.status}`)
-//            }
-//            else {
-//                return response.json()
-//            }
-//        })
-//        .then(data => kerdesMegjelenites(data))
-//}
+function kerdesMegjelenites() {
+    let kerdes = hotList[displayedQuestion].question;
+    console.log(kerdes);
+    document.getElementById("kerdes_szoveg").innerHTML = kerdes.questionText
+    document.getElementById("valasz1").innerHTML = kerdes.answer1
+    document.getElementById("valasz2").innerHTML = kerdes.answer2
+    document.getElementById("valasz3").innerHTML = kerdes.answer3
+    if (kerdes.image) {
+        document.getElementById("kep1").src = "https://szoft1.comeback.hu/hajo/" + kerdes.image
+        document.getElementById("kep1").style.display = "block";
+    } else {
+        document.getElementById("kep1").style.display = "none";
+    }
+};
 
 function vissza() {
     clearTimeout(timeoutHandler);
@@ -154,43 +112,15 @@ function elore() {
 
 };
 
-
-//function elore() {
-//    if (leptetes == osszesKerdesSzama) {
-//        leptetes = 1
-//    }
-//    else {
-//        leptetes = leptetes + 1;
-//    }
-//    kerdesBetoltes(leptetes);
-//    torles();
-//};
-
-//function klikk() {
-//    if (this.innerHTML == "Vissza") {
-//        if (sorszam != 0) {
-//            sorszam = sorszam - 1;
-//            kerdesMegjelenites(sorszam)
-//        } else {
-//            sorszam = 2; kerdesMegjelenites(sorszam)
-//        }
-//    } else {
-//        if (sorszam != 2) {
-//            sorszam = sorszam + 1;
-//            kerdesMegjelenites(sorszam);
-//        } else { sorszam = 0; kerdesMegjelenites(sorszam) };
-//    };
-//}
-
-function megoldas(ki) {
+function megoldas(melyikGomb) {
     let kerdes = hotList[displayedQuestion]
-    if (kerdes.question.correctAnswer == ki) {
-        document.getElementById(`valasz${ki}`).classList.add("jo");
+    if (kerdes.question.correctAnswer == melyikGomb) {
+        document.getElementById(`valasz${melyikGomb}`).classList.add("jo");
         kerdes.goodAnswers++;
         console.log(kerdes.goodAnswers);
     } else {
         kerdes.goodAnswers = 0;
-        for (var i = 1; i < kerdesek.length + 1; i++) {
+        for (var i = 1; i < hotList.length + 1; i++) {
             if (kerdes.question.correctAnswer == i) {
                 document.getElementById(`valasz${kerdes.question.correctAnswer}`).classList.add("jo")
             } else {
@@ -202,7 +132,7 @@ function megoldas(ki) {
     document.getElementById(`valasz2`).style.pointerEvents = "none";
     document.getElementById(`valasz3`).style.pointerEvents = "none";
     if (kerdes.goodAnswers == 3) {
-        if (nextQuestion != osszesKerdesSzama) {
+        if (nextQuestion != numberOfQuestions) {
             kerdesBetoltes(nextQuestion, displayedQuestion);
             nextQuestion++;
         }
